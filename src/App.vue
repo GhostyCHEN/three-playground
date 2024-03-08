@@ -6,4 +6,13 @@ import HelloWorld from './components/HelloWorld.vue'
   <HelloWorld />
 </template>
 
-<style></style>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+}
+html,
+body {
+  overflow: hidden;
+}
+</style>
