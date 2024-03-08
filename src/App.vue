@@ -1,9 +1,11 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+// import HelloWorld from './components/01/HelloWorld.vue'
+import Planet from './components/02/planet.vue'
 </script>
 
 <template>
-  <HelloWorld />
+  <!-- <HelloWorld /> -->
+  <Planet />
 </template>
 
 <style>
