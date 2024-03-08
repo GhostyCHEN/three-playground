@@ -28,8 +28,9 @@ export default {
       // 初始化场景，所有的网格对象，灯光，动画都需要放在场景中
       const scene = new THREE.Scene();
       // 初始化相机，分为正交相机OrthographicCamera和透视相机PerspectiveCamera
-      const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-      camera.position.z = 3;
+      // const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+      // camera.position.z = 3;
+      const camera = new THREE.OrthographicCamera(-2, 2, 2, -2, 0.1, 1000);
       scene.add(camera)
       // 页面缩放监听，更新渲染和相机
       window.addEventListener('resize', () => {
@@ -45,16 +46,23 @@ export default {
 
       // 创建一个网状模型
       const geometry = new THREE.BoxGeometry(1, 1, 1);
-      const material = new THREE.MeshBasicMaterial({ color: 0x030303 });
-      const mesh = new THREE.Mesh(geometry, material);
-      scene.add(mesh);
+      // const material = new THREE.MeshBasicMaterial({ color: 0x03c03c });
+      // const mesh = new THREE.Mesh(geometry, material);
+      // scene.add(mesh);
+      // 创建一个边缘几何体
+      const edges = new THREE.EdgesGeometry(geometry);
+      // 创建一个线材质
+      const lineMaterial = new THREE.LineBasicMaterial({ color: 0x03c03c });
+      // 创建一个线段对象
+      const lineSegments = new THREE.LineSegments(edges, lineMaterial);
+      scene.add(lineSegments);
 
       const tick = () => {
         // 更新渲染器
         renderer.render(scene, camera);
         // 使网状模型旋转
-        mesh && (mesh.rotation.x += 0.01);
-        mesh && (mesh.rotation.y += 0.01);
+        lineSegments && (lineSegments.rotation.x += 0.01);
+        lineSegments && (lineSegments.rotation.y += 0.01);
         // 页面重绘调用自身
         window.requestAnimationFrame(tick);
       }
