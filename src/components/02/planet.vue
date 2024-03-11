@@ -80,19 +80,32 @@ export default {
     scene.add(satellite);
 
     // 创建星星
-    const stars = new THREE.Group();
-    for (let i = 0; i < 500; i++) {
-      const geometry = new THREE.IcosahedronGeometry(Math.random() * 2, 0);
-      const material = new THREE.MeshToonMaterial({ color: 0xeeeeee });
-      const mesh = new THREE.Mesh(geometry, material);
-      mesh.position.x = (Math.random() - 0.5) * 700;
-      mesh.position.y = (Math.random() - 0.5) * 700;
-      mesh.position.z = (Math.random() - 0.5) * 700;
-      mesh.rotation.x = Math.random() * 2 * Math.PI;
-      mesh.rotation.y = Math.random() * 2 * Math.PI;
-      mesh.rotation.z = Math.random() * 2 * Math.PI;
-      stars.add(mesh);
+    // const stars = new THREE.Group();
+    // for (let i = 0; i < 500; i++) {
+    //   const geometry = new THREE.IcosahedronGeometry(Math.random() * 2, 0);
+    //   const material = new THREE.MeshToonMaterial({ color: 0xeeeeee });
+    //   const mesh = new THREE.Mesh(geometry, material);
+    //   mesh.position.x = (Math.random() - 0.5) * 700;
+    //   mesh.position.y = (Math.random() - 0.5) * 700;
+    //   mesh.position.z = (Math.random() - 0.5) * 700;
+    //   mesh.rotation.x = Math.random() * 2 * Math.PI;
+    //   mesh.rotation.y = Math.random() * 2 * Math.PI;
+    //   mesh.rotation.z = Math.random() * 2 * Math.PI;
+    //   stars.add(mesh);
+    // }
+    // 创建粒子系统星星
+    const geometry = new THREE.BufferGeometry();
+    const vertices = [];
+    // 创建 1000 个粒子
+    for (let i = 0; i < 10000; i++) {
+      const x = THREE.MathUtils.randFloatSpread(1000);
+      const y = THREE.MathUtils.randFloatSpread(1000);
+      const z = THREE.MathUtils.randFloatSpread(1000);
+      vertices.push(x, y, z);
     }
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+    const material = new THREE.PointsMaterial({ color: 0xeeeeee });
+    const stars = new THREE.Points(geometry, material);
     scene.add(stars);
 
 
