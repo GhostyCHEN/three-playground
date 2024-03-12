@@ -1,11 +1,13 @@
 <script setup>
 // import HelloWorld from './components/01/HelloWorld.vue'
-import Planet from './components/02/planet.vue'
+// import Planet from './components/02/planet.vue'
+import LightAndShadow from './components/03/lightAndShadow.vue'
 </script>
 
 <template>
   <!-- <HelloWorld /> -->
-  <Planet />
+  <!-- <Planet /> -->
+  <LightAndShadow />
 </template>
 
 <style>

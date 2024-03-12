@@ -108,6 +108,8 @@ export default {
     const stars = new THREE.Points(geometry, material);
     scene.add(stars);
 
+    const axesHelper = new THREE.AxesHelper(1000);
+    scene.add(axesHelper);
 
     let rot = 0
     const axis = new THREE.Vector3(0, 0, 1);
