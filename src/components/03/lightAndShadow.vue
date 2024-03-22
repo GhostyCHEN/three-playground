@@ -25,7 +25,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 export default {
   name: 'LightAndShadow',
   mounted () {
-    console.log(TWEEN);
+    this.init()
   },
   methods: {
     init () {
@@ -74,8 +74,42 @@ export default {
       // 页面缩放事件监听
       window.addEventListener('resize', () => {
         let section = document.getElementsByClassName('section')[0];
-
+        camera.aspect = section.clientWidth / section.clientHeight;
+        camera.updateProjectionMatrix();
+        camera2.aspect = section.clientWidth / section.clientHeight;
+        camera2.updateProjectionMatrix();
+        renderer.setSize(section.clientWidth, section.clientHeight);
+        renderer2.setSize(section.clientWidth, section.clientHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer2.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       })
+
+      // 初始化加载管理器
+      const loadingManager = new LoadingManager();
+      loadingManager.onLoad = () => {
+        document.querySelector('.content').style.visibility = 'visible';
+        const yPosition = { y: 0 }
+        const ftsLoader = document.querySelector('.lds-roller');
+        const loadingCover = document.getElementById('loading-text-intro')
+        // 隐藏加载页面动画
+        new TWEEN.Tween(yPosition).to({ y: 100 }, 900).easing(TWEEN.Easing.Quadratic.InOut).start().onUpdate(() => {
+          loadingCover.style.setProperty('transform', `translate(0,${yPosition.y}%)`)
+        }).onComplete(() => {
+          loadingCover.parentNode.removeChild(document.getElementById('loading-text-intro'))
+          TWEEN.remove(this)
+        })
+        // 页面一相机添加入场动画
+        new TWEEN.Tween(
+          camera.position.set(0, 4, 2)
+        ).to({ x: 0, y: 2.4, z: 5.8 }, 3500).easing(TWEEN.Easing.Quadratic.InOut).start().onComplete(() => {
+          TWEEN.remove(this)
+          document.querySelector('.header').classList.add('ended')
+          document.querySelector('.description').add('ended')
+        })
+        ftsLoader.parentNode.removeChild(ftsLoader)
+        window.scroll(0, 0)
+      }
+
     }
   },
 }
